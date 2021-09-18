@@ -1,6 +1,9 @@
 #data_files
 datafiles/
 *.h5
+*.txt
+*.npy
+*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
