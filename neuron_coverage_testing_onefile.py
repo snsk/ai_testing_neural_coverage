@@ -11,7 +11,7 @@ np.set_printoptions(threshold=sys.maxsize)
 
 #colab_root = '/content/drive/MyDrive/colab_root/'
 colab_root = './'
-filename = 'ramen_1.jpg'
+filename = 'hiyashi_1.jpg'
 
 # 画像を読み込む。
 img = image.load_img(colab_root+filename,  target_size=(100,100))
@@ -54,6 +54,15 @@ for i in range(12):
     get_3rd_layer_output = K.function([model.layers[0].input],
                                     [model.layers[i].output])
     layer_output = get_3rd_layer_output(g_img)[0]
+    # ファイルへの書き出し
     print(layer_output, file=codecs.open(filename + '_numpy_l' + 
         str(i) + '_' + layer_name[i] + '.txt', 'w', 'utf-8'))
-
+    
+    # neuron coverage の計算
+    active_neurons_count = np.count_nonzero(layer_output)
+    total_neurons_count = layer_output.size
+    print('nuron_cov({}): {} {}/{}'.format(layer_name[i], '{:.2%}'.format(
+        active_neurons_count/total_neurons_count), 
+        active_neurons_count, 
+        total_neurons_count)
+        )
